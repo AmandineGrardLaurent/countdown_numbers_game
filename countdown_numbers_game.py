@@ -114,6 +114,22 @@ def one_turn(available_numbers):
     print(f"Nouvelle entrée : {new_available_number}")
     available_numbers.append(new_available_number)
 
+def ask_continue():
+    """
+    Asks the user if they want to continue to the next turn.
+
+    Returns: bool - True if the user wants to continue, False otherwise.
+    """
+    while True:
+        user_input = input("Voulez-vous continuer ? (oui/non) ").strip().lower()
+        if user_input in ("oui", "o"):
+            return True
+        elif user_input in ("non", "n"):
+            return False
+        else:
+            print("Veuillez répondre par 'oui' ou 'non'.")
+
+
 def countdown_numbers_game(available_numbers):
     """
     Runs the Countdown numbers game loop until the target is reached
@@ -128,7 +144,8 @@ def countdown_numbers_game(available_numbers):
     while not target_number in available_numbers and len(available_numbers) > 1:
         print(f"Chiffre à atteindre : {target_number}")
         one_turn(available_numbers)
-
+        if not ask_continue():
+            break
     if target_number in available_numbers:
         print("Le compte est bon, vous avez gagné !!!")
     else:
