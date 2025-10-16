@@ -13,13 +13,17 @@ operators = {
 
 cards_list = [n for n in range(1, 11) for _ in range(2)] + [25, 50, 75, 100]
 
+MIN_TARGET = 101
+MAX_TARGET = 999
+
+
 def generate_target_number():
     """
     Generate a random target number for the game.
 
     :return: int - A random integer between 101 and 999 (inclusive).
     """
-    return random.randint(101, 999)
+    return random.randint(MIN_TARGET, MAX_TARGET)
 
 
 def draw_starting_cards():
@@ -91,15 +95,23 @@ def one_turn(available_numbers):
     :param available_numbers: list - Current list of usable numbers.
     """
 
+    # user selects a first number from the available numbers.
     nb_1 = ask_number(available_numbers)
+    # update available numbers list
     available_numbers.remove(nb_1)
 
+    # user selects a mathematical operator (+, -, *, /).
     operator_symbol = ask_operator()
 
+    # user selects a second number from the remaining numbers.
     nb_2 = ask_number(available_numbers)
+    # update available numbers list (user can't choose a number ever used)
     available_numbers.remove(nb_2)
 
+    # Applies the operator to the two chosen numbers.
     new_available_number = calculator(nb_1, nb_2, operator_symbol)
+    # update available numbers list with the result
+    print(f"Nouvelle entrée : {new_available_number}")
     available_numbers.append(new_available_number)
 
 def countdown_numbers_game(available_numbers):
@@ -110,6 +122,7 @@ def countdown_numbers_game(available_numbers):
     :param available_numbers: list - List of available numbers to use.
     """
 
+    # generate target
     target_number = generate_target_number()
 
     while not target_number in available_numbers and len(available_numbers) > 1:
