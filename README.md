@@ -1,4 +1,4 @@
-countdown_numbers_game
+
 # 🧮 Countdown numbers game — Jeu Python
 
 Ce programme est une version simplifiée du célèbre jeu **"Le Compte est Bon"**, dans lequel le joueur doit combiner des nombres à l’aide d’opérations mathématiques pour atteindre un nombre cible donné.
