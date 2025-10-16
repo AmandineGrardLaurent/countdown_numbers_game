@@ -26,6 +26,20 @@ def draw_starting_cards(cards_list):
     """
     return random.sample(cards_list, 6)
 
+def ask_operator():
+    """
+     Prompt the user to select a valid mathematical operator.
+
+    :return: str - One of the four valid operators: '+', '-', '*', '/'
+    """
+    valid_operators = {"+", "-", "*", "/"}
+
+    while True:
+        operator = input("Quelle opération souhaitez-vous réaliser ? [ + , - , * , / ]\n").strip()
+        if operator in valid_operators:
+            return operator
+        print("Entrée invalide. Merci de choisir une opération parmi [ + , - , * , / ].")
+
 if __name__ == '__main__':
 
-   print()
+   ask_operator()
