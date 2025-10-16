@@ -8,7 +8,7 @@ operators = {
     "+": operator.add,
     "-": operator.sub,
     "*": operator.mul,
-    "/": operator.truediv
+    "/": operator.floordiv
 }
 
 cards_list = [n for n in range(1, 11) for _ in range(2)] + [25, 50, 75, 100]
@@ -24,7 +24,7 @@ def generate_target_number():
 
 def draw_starting_cards():
     """
-    Randomly draw 6 unique cards from the given card list.
+    Randomly draw 6 cards from the predefined list of numbers.
 
     :return: list - A list of 6 randomly selected cards with no duplicates.
     """
@@ -63,9 +63,9 @@ def ask_operator():
     valid_operators = {"+", "-", "*", "/"}
 
     while True:
-        operator = input("Quelle opération souhaitez-vous réaliser ? [ + , - , * , / ]\n").strip()
-        if operator in valid_operators:
-            return operator
+        operator_symbol = input("Quelle opération souhaitez-vous réaliser ? [ + , - , * , / ]\n").strip()
+        if operator_symbol in valid_operators:
+            return operator_symbol
         print("Entrée invalide. Merci de choisir une opération parmi [ + , - , * , / ].")
 
 
@@ -81,14 +81,49 @@ def calculator(nb_1, nb_2, operator_symbol):
     return operators[operator_symbol](nb_1, nb_2)
 
 
+def one_turn(available_numbers):
+    """
+    Executes a single turn of the Countdown numbers game.
+
+    The player selects two numbers and an operator; the result replaces
+    the two numbers in the available list.
+
+    :param available_numbers: list - Current list of usable numbers.
+    """
+
+    nb_1 = ask_number(available_numbers)
+    available_numbers.remove(nb_1)
+
+    operator_symbol = ask_operator()
+
+    nb_2 = ask_number(available_numbers)
+    available_numbers.remove(nb_2)
+
+    new_available_number = calculator(nb_1, nb_2, operator_symbol)
+    available_numbers.append(new_available_number)
+
+def countdown_numbers_game(available_numbers):
+    """
+    Runs the Countdown numbers game loop until the target is reached
+    or only one number remains.
+
+    :param available_numbers: list - List of available numbers to use.
+    """
+
+    target_number = generate_target_number()
+
+    while not target_number in available_numbers and len(available_numbers) > 1:
+        print(f"Chiffre à atteindre : {target_number}")
+        one_turn(available_numbers)
+
+    if target_number in available_numbers:
+        print("Le compte est bon, vous avez gagné !!!")
+    else:
+        print(f"Perdu... le compte n'y est pas... ")
+
+
 if __name__ == '__main__':
 
     available_numbers = draw_starting_cards()
-
-    operator = ask_operator()
-    nb_1 = ask_number(available_numbers)
-    available_numbers.remove(nb_1)
-    nb_2 = ask_number(available_numbers)
-    operation = calculator(nb_1, nb_2, operator)
-    print(operation)
+    countdown_numbers_game(available_numbers)
 
